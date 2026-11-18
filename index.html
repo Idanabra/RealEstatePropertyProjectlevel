@@ -5041,7 +5041,7 @@ __ds_ns.ShellBar = __ds_scope.ShellBar;
       <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;padding:16px 20px;border-bottom:.0625rem solid #e5e5e5">
         <div style="display:flex;align-items:center;gap:6px;margin-inline-start:auto">
             <div style="position:relative;width:280px">
-              <input value="{{ query }}" onChange="{{ onSearch }}" placeholder="חיפוש לפי נכס, דגם או שם לקוח…" aria-label="חיפוש" style="width:100%;height:34px;padding:0 12px 0 32px;border:.0625rem solid var(--sapField_BorderColor,#556b81);border-radius:4px;background:#fff;font-family:var(--sapFontFamily,'72',sans-serif);font-size:13px;color:#131e29;outline:none" style-focus="border-color:#0064d9;box-shadow:0 0 0 1px #0064d9" />
+              <input value="{{ query }}" onChange="{{ onSearch }}" placeholder="חיפוש לפי נכס, לקוח או חוזה…" aria-label="חיפוש" style="width:100%;height:34px;padding:0 12px 0 32px;border:.0625rem solid var(--sapField_BorderColor,#556b81);border-radius:4px;background:#fff;font-family:var(--sapFontFamily,'72',sans-serif);font-size:13px;color:#131e29;outline:none" style-focus="border-color:#0064d9;box-shadow:0 0 0 1px #0064d9" />
               <span aria-hidden="true" style="position:absolute;inset-inline-end:10px;top:0;height:34px;display:flex;align-items:center;color:#556b82;pointer-events:none">
                 <x-import component-from-global-scope="SAPHorizonDesignSystem_f0bcbb.Icon" name="search" size=".9rem" hint-size="15px,15px"></x-import>
               </span>
@@ -5058,10 +5058,11 @@ __ds_ns.ShellBar = __ds_scope.ShellBar;
         </div>
       </div>
 
-      <div class="ph-scroll" style="overflow-x:auto">
-        <div style="min-width:1100px">
+      <div class="ph-scroll" style="overflow-x:hidden">
+        <div style="min-width:0">
 
-          <div style="display:grid;grid-template-columns:minmax(300px,1.5fr) 130px 120px 70px 330px 150px;align-items:center;background:#fff;border-bottom:.0625rem solid #d9dfe4;font-size:12px;font-weight:700;color:#556b82;position:sticky;top:0;z-index:2">
+          <sc-if value="{{ isTree }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:minmax(170px,1.4fr) minmax(80px,.8fr) minmax(80px,.8fr) 56px minmax(190px,2.2fr) minmax(100px,1fr);align-items:center;background:#fff;border-bottom:.0625rem solid #d9dfe4;font-size:12px;font-weight:700;color:#556b82;position:sticky;top:0;z-index:2">
             <div style="padding:11px 16px">נכס</div>
             <div style="padding:11px 12px">דגם</div>
             <div style="padding:11px 12px">כיוונים</div>
@@ -5071,7 +5072,7 @@ __ds_ns.ShellBar = __ds_scope.ShellBar;
           </div>
 
           <sc-for list="{{ pageRows }}" as="row" hint-placeholder-count="8">
-            <div onClick="{{ row.onToggle }}" style="display:grid;grid-template-columns:minmax(300px,1.5fr) 130px 120px 70px 330px 150px;align-items:center;border-bottom:.0625rem solid #eef1f3;font-size:13px;background:{{ row.bg }};cursor:{{ row.cursor }}" style-hover="background:#f5f8fb">
+            <div onClick="{{ row.onToggle }}" style="display:grid;grid-template-columns:minmax(170px,1.4fr) minmax(80px,.8fr) minmax(80px,.8fr) 56px minmax(190px,2.2fr) minmax(100px,1fr);align-items:center;border-bottom:.0625rem solid #eef1f3;font-size:13px;background:{{ row.bg }};cursor:{{ row.cursor }}" style-hover="background:#f5f8fb">
 
               <div style="display:flex;align-items:center;gap:8px;padding:9px 16px;padding-inline-start:{{ row.pad }}px;min-width:0">
                 <span style="width:18px;height:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#556b82">
@@ -5109,6 +5110,38 @@ __ds_ns.ShellBar = __ds_scope.ShellBar;
               <div style="padding:9px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ row.customer }}</div>
             </div>
           </sc-for>
+          </sc-if>
+
+          <sc-if value="{{ isList }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;grid-template-columns:minmax(70px,1fr) 56px 80px minmax(70px,1fr) 56px minmax(70px,1fr) 124px minmax(100px,1.6fr) 84px;align-items:center;background:#fff;border-bottom:.0625rem solid #d9dfe4;font-size:12px;font-weight:700;color:#556b82;position:sticky;top:0;z-index:2">
+              <div style="padding:11px 16px">בניין</div>
+              <div style="padding:11px 12px">קומה</div>
+              <div style="padding:11px 12px">מס' דירה</div>
+              <div style="padding:11px 12px">סוג</div>
+              <div style="padding:11px 12px">חדרים</div>
+              <div style="padding:11px 12px">כיוון</div>
+              <div style="padding:11px 12px">סטטוס</div>
+              <div style="padding:11px 12px">לקוח</div>
+              <div style="padding:11px 12px">חוזה</div>
+            </div>
+            <sc-for list="{{ listRows }}" as="lr" hint-placeholder-count="8">
+              <div onClick="{{ lr.onSelect }}" style="display:grid;grid-template-columns:minmax(70px,1fr) 56px 80px minmax(70px,1fr) 56px minmax(70px,1fr) 124px minmax(100px,1.6fr) 84px;align-items:center;border-bottom:.0625rem solid #eef1f3;font-size:13px;background:{{ lr.bg }};cursor:pointer" style-hover="background:#f5f8fb">
+                <div style="padding:9px 16px;font-weight:600">{{ lr.building }}</div>
+                <div style="padding:9px 12px;color:#3a4a5a">{{ lr.floor }}</div>
+                <div style="padding:9px 12px;font-family:var(--sapFontMonospace,'72Mono',monospace);color:#3a4a5a">{{ lr.aptNo }}</div>
+                <div style="padding:9px 12px;color:#3a4a5a">{{ lr.kind }}</div>
+                <div style="padding:9px 12px;font-family:var(--sapFontMonospace,'72Mono',monospace);color:#556b82">{{ lr.rooms }}</div>
+                <div style="padding:9px 12px;color:#556b82">{{ lr.directions }}</div>
+                <div style="padding:7px 12px">
+                  <span style="display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:100px;font-size:12px;font-weight:600;color:{{ lr.statusColor }};background:{{ lr.statusBg }}">
+                    <x-import component-from-global-scope="SAPHorizonDesignSystem_f0bcbb.Icon" name="{{ lr.statusIcon }}" size=".75rem" hint-size="12px,12px"></x-import>{{ lr.statusText }}
+                  </span>
+                </div>
+                <div style="padding:9px 12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ lr.customer }}</div>
+                <div style="padding:9px 12px;font-family:var(--sapFontMonospace,'72Mono',monospace);color:#131e29">{{ lr.contract }}</div>
+              </div>
+            </sc-for>
+          </sc-if>
 
           <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
             <div style="padding:48px;text-align:center;color:#556b82;font-size:14px">לא נמצאו תוצאות עבור החיפוש.</div>
@@ -5143,7 +5176,7 @@ class Component extends DCLogic {
 
   project = (() => {
     let n = 0; const uid = () => "n" + (++n);
-    const asset = (name, model, rooms, dir, cust, st) => ({ id: uid(), type: "asset", name, status: st, attrs: { model, rooms, directions: dir, customer: cust } });
+    const asset = (name, model, rooms, dir, cust, st, extra) => ({ id: uid(), type: "asset", name, status: st, attrs: { model, rooms, directions: dir, customer: cust, ...(extra || {}) } });
     const level = (name, floor, assets) => ({ id: uid(), type: "level", name, attrs: { floor }, children: assets });
     const bld = (name, levels) => ({ id: uid(), type: "building", name, children: levels });
 
@@ -5169,7 +5202,12 @@ class Component extends DCLogic {
             const st = ST[pattern[(f - 1) * 4 + i]];
             const cust = st === "פנוי" ? "" : NAMES[ni++ % NAMES.length];
             const dir = model === "פנטהאוז" ? "פנורמי" : DIRS[i];
-            return asset("נכס " + code + "-" + f + "-0" + (i + 1), model, r || ROOMS[model], dir, cust, st);
+            const aptNo = (f - 1) * 4 + i + 1;
+            const kind = model === "דירת גן" || model === "פנטהאוז" ? model : "דירה";
+            // Contract only when sold (e.g. A/412); customer only when sold / in negotiation / reserved.
+            const contract = st === "נמכר" ? code + "/" + ((code === "A" ? 400 : 500) + aptNo * 3) : "";
+            return asset("נכס " + code + "-" + f + "-0" + (i + 1), model, r || ROOMS[model], dir, cust, st,
+              { aptNo: String(aptNo), kind, contract, buildingCode: code });
           }))
         ));
         return [
@@ -5180,7 +5218,30 @@ class Component extends DCLogic {
     };
   })();
 
-  VIEWS = [{ key: "building", label: "בניין" }, { key: "level", label: "קומה" }, { key: "asset", label: "נכס" }];
+  VIEWS = [{ key: "building", label: "בניין" }, { key: "level", label: "קומה" }, { key: "asset", label: "נכס" }, { key: "list", label: "רשימה" }];
+
+  buildListRows() {
+    const q = this.state.query.trim().toLowerCase();
+    const filt = this.state.statusFilter;
+    const mFilt = this.state.modelFilter;
+    const out = [];
+    this.project.children.forEach(b => b.children.forEach(lv => lv.children.forEach(a => {
+      const at = a.attrs;
+      if (filt && a.status !== filt) return;
+      if (mFilt && at.model !== mFilt) return;
+      const hay = [a.name, b.name, at.customer, at.contract, at.model, at.kind].filter(Boolean).join(" ").toLowerCase();
+      if (q && hay.indexOf(q) === -1) return;
+      const st = this.STAT[a.status];
+      out.push({
+        building: b.name, floor: lv.attrs.floor, aptNo: at.aptNo, kind: at.kind, rooms: at.rooms, directions: at.directions,
+        statusText: a.status, statusColor: st.color, statusBg: st.bg, statusIcon: st.icon,
+        customer: at.customer || "", contract: at.contract || "",
+        bg: a.id === this.state.selectedId ? "#e1f4ff" : "#fff",
+        onSelect: () => this.selectRow(a.id, false),
+      });
+    })));
+    return out;
+  }
 
   setView = (view) => {
     const exp = {};
@@ -5239,7 +5300,7 @@ class Component extends DCLogic {
       const kids = node.children || [];
       const childRes = kids.map(k => walk(k, depth + 1, attrs));
       const childMatch = childRes.some(r => r.match);
-      const hay = [node.name, attrs.customer, attrs.model].filter(Boolean).join(" ").toLowerCase();
+      const hay = [node.name, attrs.customer, attrs.model, attrs.contract].filter(Boolean).join(" ").toLowerCase();
       const qOk = q ? hay.indexOf(q) !== -1 : true;
       const fOk = (filt || mFilt)
         ? (node.type === "asset" && (!filt || node.status === filt) && (!mFilt || node.attrs.model === mFilt))
@@ -5369,7 +5430,10 @@ class Component extends DCLogic {
       },
       stat,
       query: this.state.query,
-      noResults: rows.length === 0,
+      isList: this.state.view === "list",
+      isTree: this.state.view !== "list",
+      listRows: this.state.view === "list" ? this.buildListRows() : [],
+      noResults: this.state.view === "list" ? this.buildListRows().length === 0 : rows.length === 0,
       searchOpen: this.state.searchOpen,
       pageRows,
       pageNum: page + 1,
